@@ -1,0 +1,47 @@
+services:
+  counter:
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      - LOKI_URL=http://loki:3100
+    depends_on:
+      - loki
+    networks:
+      - counter
+
+  loki:
+    image: grafana/loki:3.0.0
+    user: "0"
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yml:/etc/loki/local-config.yaml
+      - loki-data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - counter
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+    user: "0"
+    depends_on:
+      - loki
+    networks:
+      - counter
+
+networks:
+  counter:
+
+volumes:
+  loki-data:
+  grafana-data:
