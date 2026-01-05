@@ -24,8 +24,12 @@ schema_config:
         prefix: index_
         period: 24h
 
+ingester:
+  max_chunk_age: 17520h # comment after import (2 years)
+
 limits_config:
   reject_old_samples: false
   reject_old_samples_max_age: 8760h
+  unordered_writes: true # comment after import
   ingestion_rate_mb: 16
   ingestion_burst_size_mb: 32

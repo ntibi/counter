@@ -77,6 +77,7 @@ func main() {
 
 func parseTimestamp(s string) (time.Time, error) {
 	formats := []string{
+		"02/01/2006,15:04",
 		time.RFC3339,
 		time.RFC3339Nano,
 		"2006-01-02T15:04:05",
