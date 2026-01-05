@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Counter</title>
+  <script src="https://cdn.jsdelivr.net/npm/timeago.js@4/dist/timeago.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -56,8 +57,7 @@
     const btn = document.getElementById('btn');
 
     function formatDate(iso) {
-      const d = new Date(iso);
-      return d.toLocaleString();
+      return timeago.format(iso);
     }
 
     async function fetchCount() {
