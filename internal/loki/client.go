@@ -153,6 +153,8 @@ func (c *Client) LastTimestamp(labels map[string]string) (time.Time, error) {
 	params.Set("query", labelSelector)
 	params.Set("limit", "1")
 	params.Set("direction", "backward")
+	params.Set("start", strconv.FormatInt(time.Now().Add(-24*time.Hour).UnixNano(), 10))
+	params.Set("end", strconv.FormatInt(time.Now().UnixNano(), 10))
 
 	resp, err := c.httpClient.Get(c.baseURL + "/loki/api/v1/query_range?" + params.Encode())
 	if err != nil {
